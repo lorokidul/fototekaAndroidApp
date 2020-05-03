@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">kartoteka</string>
+    <string name="addDocumentButtonText">Добавить документ</string>
+</resources>
