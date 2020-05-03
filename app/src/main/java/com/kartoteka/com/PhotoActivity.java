@@ -33,7 +33,17 @@ public class PhotoActivity extends AppCompatActivity {
 
             }
         };
+
+        View.OnClickListener onClickListenerOk = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent (PhotoActivity.this, FillDataActivity.class);
+                startActivity(intent);
+
+            }
+        };
         takePicBtn.setOnClickListener(onClickListener);
+        okBtn.setOnClickListener(onClickListenerOk);
     }
 
     @Override
