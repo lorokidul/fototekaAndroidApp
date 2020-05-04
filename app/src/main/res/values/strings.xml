@@ -5,7 +5,10 @@
     <string name="remakeButtonText">Переснять</string>
     <string name="headerNameText">Введите наименование документа</string>
     <string name="fillNameFormText">Наименование</string>
-    <string name ="headerCategoryText">Введите категорию</string>
-    <string name ="fillCategoryFormText">Категория</string>
-    <string name ="saveButtonText">Сохрантить</string>>
+    <string name="headerCategoryText">Введите категорию</string>
+    <string name="fillCategoryFormText">Категория</string>
+    <string name="saveButtonText">Сохранить</string>>
+    <string name="saveDocButtonText">Добавить ещё один документ</string>
+    <string name="goToCatalogue">Перейти в каталог</string>>
+
 </resources>
