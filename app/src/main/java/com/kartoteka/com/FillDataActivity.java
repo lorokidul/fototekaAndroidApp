@@ -2,16 +2,22 @@ package com.kartoteka.com;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Environment;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
 import com.kartoteka.com.R;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 
 public class FillDataActivity extends AppCompatActivity {
@@ -29,8 +35,19 @@ public class FillDataActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(FillDataActivity.this, DisplaySavedActivity.class);
                 EditText editText = (EditText) findViewById(R.id.nameEditBox);
-                intent.putExtra("docName",editText.getText().toString());
+                String docName = editText.getText().toString();
+                intent.putExtra("docName",docName);
                 intent.putExtra("docPic",byteArray);
+                String filename = docName+".png";
+
+                try {
+                    FillDataActivity.this.openFileOutput(filename, Context.MODE_PRIVATE).write(byteArray);
+                    Log.d("SAVE FILE","file saved");
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
                 startActivity(intent);
                 finish();
             }

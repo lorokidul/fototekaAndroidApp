@@ -40,15 +40,15 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/goToCatalogueButton"
+        android:id="@+id/addMoreDocButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/saveDocButtonText"
-        app:layout_constraintBottom_toTopOf="@+id/button4"
-        app:layout_constraintStart_toStartOf="@+id/button4" />
+        app:layout_constraintBottom_toTopOf="@+id/goToCatalogueButton"
+        app:layout_constraintStart_toStartOf="@+id/goToCatalogueButton" />
 
     <Button
-        android:id="@+id/button4"
+        android:id="@+id/goToCatalogueButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/goToCatalogue"

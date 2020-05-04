@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -19,6 +20,12 @@ public class PhotoActivity extends AppCompatActivity {
     Button takePicBtn,okBtn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        String[] appFiles = fileList();
+        for (String file:appFiles
+        ) {
+            Log.d("file","file---"+file);
+
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_photo);
 

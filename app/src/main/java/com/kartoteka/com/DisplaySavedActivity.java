@@ -2,9 +2,12 @@ package com.kartoteka.com;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -21,5 +24,17 @@ public class DisplaySavedActivity extends AppCompatActivity {
         imageView.setImageBitmap(bitmap);
         TextView  textView = (TextView)findViewById(R.id.savedTextView);
         textView.setText("Документ " +docName+" сохранен!");
+
+        Button addDocBtn = (Button)findViewById(R.id.addMoreDocButton);
+
+        View.OnClickListener onClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(DisplaySavedActivity.this, PhotoActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        };
+        addDocBtn.setOnClickListener(onClickListener);
     }
 }
