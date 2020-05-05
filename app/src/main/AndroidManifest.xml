@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.kartoteka.com">
+    package="com.sna.fototeka">
 
     <application
         android:allowBackup="true"
@@ -9,10 +9,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".DisplaySavedActivity"></activity>
-        <activity android:name=".FillDataActivity" />
-        <activity android:name=".PhotoActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name="com.sna.fototeka.DisplaySavedActivity"></activity>
+        <activity android:name="com.sna.fototeka.FillDataActivity" />
+        <activity android:name="com.sna.fototeka.PhotoActivity" />
+        <activity android:name="com.sna.fototeka.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">kartoteka</string>
+    <string name="app_name">Фототека</string>
     <string name="addDocumentButtonText">Добавить документ</string>
     <string name="okButtonText">OK</string>
     <string name="remakeButtonText">Переснять</string>

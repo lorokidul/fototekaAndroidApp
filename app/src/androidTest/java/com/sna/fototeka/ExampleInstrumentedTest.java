@@ -1,4 +1,4 @@
-package com.kartoteka.com;
+package com.sna.fototeka;
 
 import android.content.Context;
 

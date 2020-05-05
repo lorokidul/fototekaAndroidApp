@@ -1,4 +1,4 @@
-package com.kartoteka.com;
+package com.sna.fototeka;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,6 +26,7 @@ public class PhotoActivity extends AppCompatActivity {
             Log.d("file","file---"+file);
 
         }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_photo);
 

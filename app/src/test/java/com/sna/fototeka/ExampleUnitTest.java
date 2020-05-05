@@ -1,4 +1,4 @@
-package com.kartoteka.com;
+package com.sna.fototeka;
 
 import org.junit.Test;
 
