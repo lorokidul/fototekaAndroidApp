@@ -14,7 +14,7 @@
         android:layout_marginTop="89dp"
         android:layout_marginBottom="355dp"
         android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/saveButton"
+        app:layout_constraintBottom_toTopOf="@+id/buttonAddPages"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -39,12 +39,12 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/saveButton"
+        android:id="@+id/buttonAddPages"
         android:layout_width="wrap_content"
         android:layout_height="49dp"
         android:layout_marginTop="551dp"
         android:layout_marginBottom="3dp"
-        android:text="@string/saveButtonText"
+        android:text="@string/addPagesButtonText"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"

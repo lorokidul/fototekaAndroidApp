@@ -27,7 +27,7 @@ public class CatalogActivity extends AppCompatActivity {
             View.OnClickListener onClickListener = new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(CatalogActivity.this, PhotoActivity.class);
+                    Intent intent = new Intent(CatalogActivity.this, FillDataActivity.class);
                     startActivity(intent);
                     finish();
                 }

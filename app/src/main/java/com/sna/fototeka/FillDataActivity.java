@@ -7,12 +7,12 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-
-import com.sna.fototeka.R;
+import android.widget.Toast;
 
 import java.io.IOException;
 
@@ -22,38 +22,31 @@ public class FillDataActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        final byte[] byteArray = getIntent().getByteArrayExtra("docPic");
 
         setContentView(R.layout.activity_fill_data);
 
-        Button saveButon = (Button) findViewById(R.id.saveButton);
+        Button addPagesBtn = (Button) findViewById(R.id.buttonAddPages);
         View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(FillDataActivity.this, DisplaySavedActivity.class);
+
+
+
+                Intent intent = new Intent(FillDataActivity.this, PhotoActivity.class);
                 EditText editText = (EditText) findViewById(R.id.nameEditBox);
                 String docName = editText.getText().toString();
-                intent.putExtra("docName",docName);
-                intent.putExtra("docPic",byteArray);
-                String filename = docName+".png";
-
-                try {
-                    FillDataActivity.this.openFileOutput(filename, Context.MODE_PRIVATE).write(byteArray);
-                    Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray,0,byteArray.length);
-                    Log.d("write bitmap","write bitmap "+byteArray+"|length "+byteArray.length);
-                    MainActivity.documents.put(docName, new Document(docName, filename, byteArray,bitmap));
-                    Log.d("SAVE FILE","file saved");
-
-                } catch (IOException e) {
-                    e.printStackTrace();
+                if(MainActivity.documents.containsKey(docName)){
+                    Toast.makeText(FillDataActivity.this, "Документ с таким наименованием уже есть." , Toast.LENGTH_LONG).show();
+                } else {
+                    intent.putExtra("docName", docName);
+                    intent.putExtra("filename", docName + ".png");
+                    startActivity(intent);
+                    finish();
                 }
-
-                startActivity(intent);
-                finish();
             }
         };
 
-        saveButon.setOnClickListener(onClickListener);
+        addPagesBtn.setOnClickListener(onClickListener);
 
 
 
