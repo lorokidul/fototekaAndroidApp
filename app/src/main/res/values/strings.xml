@@ -10,5 +10,6 @@
     <string name="saveButtonText">Сохранить</string>>
     <string name="saveDocButtonText">Добавить ещё один документ</string>
     <string name="goToCatalogText">Перейти в каталог</string>
+    <string name = "emptyCatalogText">Здесь пока пусто...</string>
 
 </resources>

@@ -26,21 +26,34 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //for (String f : fileList()){deleteFile(f);}
         DocumentsHelper.fillOnStart(MainActivity.this, fileList());
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        Log.d("TAG","hi, this is kartoteka");
-        Button addDocButton = findViewById(R.id.addDocumentButton);
-        View.OnClickListener onClickListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d("ADD","add doc button pushed.");
-                Intent intent = new Intent(MainActivity.this, PhotoActivity.class);
-                startActivity(intent);
-            }
-        };
-        addDocButton.setOnClickListener(onClickListener);
-    }
+
+            setContentView(R.layout.activity_main);
+
+            Button addDocButton = findViewById(R.id.addDocumentButton);
+            Button goToCatalogBtn = (Button) findViewById(R.id.goToCatalogFromMainButton);
+
+            View.OnClickListener onClickListener = new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(MainActivity.this, PhotoActivity.class);
+                    startActivity(intent);
+                }
+            };
+            addDocButton.setOnClickListener(onClickListener);
+
+            View.OnClickListener onClickListenerGoBtn = new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(MainActivity.this, CatalogActivity.class);
+                    startActivity(intent);
+                }
+            };
+            goToCatalogBtn.setOnClickListener(onClickListenerGoBtn);
+        }
+
 
     @Override
     protected void onDestroy() {
