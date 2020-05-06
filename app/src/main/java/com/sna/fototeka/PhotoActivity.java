@@ -20,12 +20,7 @@ public class PhotoActivity extends AppCompatActivity {
     Button takePicBtn,okBtn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        String[] appFiles = fileList();
-        for (String file:appFiles
-        ) {
-            Log.d("file","file---"+file);
 
-        }
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_photo);

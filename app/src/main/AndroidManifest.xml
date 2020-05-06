@@ -9,10 +9,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.sna.fototeka.DisplaySavedActivity"></activity>
-        <activity android:name="com.sna.fototeka.FillDataActivity" />
-        <activity android:name="com.sna.fototeka.PhotoActivity" />
-        <activity android:name="com.sna.fototeka.MainActivity">
+        <activity android:name=".CatalogActivity"></activity>
+        <activity android:name=".DisplaySavedActivity" />
+        <activity android:name=".FillDataActivity" />
+        <activity android:name=".PhotoActivity" />
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

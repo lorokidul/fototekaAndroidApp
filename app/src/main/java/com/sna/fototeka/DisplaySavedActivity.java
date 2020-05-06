@@ -26,7 +26,7 @@ public class DisplaySavedActivity extends AppCompatActivity {
         textView.setText("Документ " +docName+" сохранен!");
 
         Button addDocBtn = (Button)findViewById(R.id.addMoreDocButton);
-
+        Button goToCatalogBtn = (Button)findViewById(R.id.goToCatalogButton);
         View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -35,6 +35,14 @@ public class DisplaySavedActivity extends AppCompatActivity {
                 finish();
             }
         };
+        View.OnClickListener onClickListenerGoBtn = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(DisplaySavedActivity.this, CatalogActivity.class);
+                startActivity(intent);
+            }
+        };
         addDocBtn.setOnClickListener(onClickListener);
+        goToCatalogBtn.setOnClickListener(onClickListenerGoBtn);
     }
 }

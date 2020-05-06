@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -37,6 +39,9 @@ public class FillDataActivity extends AppCompatActivity {
 
                 try {
                     FillDataActivity.this.openFileOutput(filename, Context.MODE_PRIVATE).write(byteArray);
+                    Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray,0,byteArray.length);
+                    Log.d("write bitmap","write bitmap "+byteArray+"|length "+byteArray.length);
+                    MainActivity.documents.put(docName, new Document(docName, filename, byteArray,bitmap));
                     Log.d("SAVE FILE","file saved");
 
                 } catch (IOException e) {

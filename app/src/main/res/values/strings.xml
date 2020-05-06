@@ -9,6 +9,6 @@
     <string name="fillCategoryFormText">Категория</string>
     <string name="saveButtonText">Сохранить</string>>
     <string name="saveDocButtonText">Добавить ещё один документ</string>
-    <string name="goToCatalogue">Перейти в каталог</string>>
+    <string name="goToCatalogText">Перейти в каталог</string>
 
 </resources>

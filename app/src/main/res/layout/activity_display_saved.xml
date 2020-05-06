@@ -44,14 +44,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/saveDocButtonText"
-        app:layout_constraintBottom_toTopOf="@+id/goToCatalogueButton"
-        app:layout_constraintStart_toStartOf="@+id/goToCatalogueButton" />
+        app:layout_constraintBottom_toTopOf="@+id/goToCatalogButton"
+        app:layout_constraintStart_toStartOf="@+id/goToCatalogButton" />
 
     <Button
-        android:id="@+id/goToCatalogueButton"
+        android:id="@+id/goToCatalogButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/goToCatalogue"
+        android:text="@string/goToCatalogText"
         app:layout_constraintBottom_toBottomOf="parent"
         tools:layout_editor_absoluteX="168dp" />
 
