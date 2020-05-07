@@ -14,6 +14,7 @@ import java.util.HashMap;
 public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     Context context;
     String[] items;
+    String[] pages;
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -25,7 +26,8 @@ public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        ((Item)holder).textView.setText(items[position]);
+        ((Item)holder).textViewName.setText(items[position]);
+        ((Item)holder).textViewPages.setText(MainActivity.documents.get(items[position]).getNumberOfPages() +" страниц");
     }
 
     @Override
@@ -34,10 +36,12 @@ public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     public class Item extends RecyclerView.ViewHolder{
-        TextView textView;
+        TextView textViewName;
+        TextView textViewPages;
         public Item(View itemView){
             super(itemView);
-            textView = (TextView) itemView.findViewById(R.id.docNameItem);
+            textViewName = (TextView) itemView.findViewById(R.id.docNameItem);
+            textViewPages = (TextView) itemView.findViewById(R.id.numberOfPages);
 
         }
     }
@@ -45,5 +49,7 @@ public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public Adapter(Context context, String[] items){
         this.context = context;
         this.items = items;
+        //this.docs = docs;
+
     }
 }

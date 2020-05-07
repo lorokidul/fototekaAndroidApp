@@ -2,18 +2,13 @@ package com.sna.fototeka;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-import java.io.File;
 import java.util.HashMap;
-import java.util.Map;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -27,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //for (String f : fileList()){deleteFile(f);}
-        DocumentsHelper.fillOnStart(MainActivity.this, fileList());
+        DocumentsHelper.initializeDocuments(MainActivity.this, fileList());
         super.onCreate(savedInstanceState);
 
             setContentView(R.layout.activity_main);

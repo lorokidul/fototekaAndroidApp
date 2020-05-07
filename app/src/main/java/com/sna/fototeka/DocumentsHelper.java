@@ -49,7 +49,7 @@ public abstract class DocumentsHelper {
         String[] names= MainActivity.documents.keySet().toArray(new String[MainActivity.documents.size()]);
         return names;
     }
-    public static void fillOnStart(Context context, String[] filenames) {
+    public static void initializeDocuments(Context context, String[] filenames) {
         int pos = 0;
         ArrayList<String> addedDocs = new ArrayList<String>();
         String docName = "";
