@@ -2,6 +2,7 @@ package com.sna.fototeka;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -25,6 +26,8 @@ public class CatalogActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
+    private static final int VERTICAL_ITEM_SPACE = 48;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +37,9 @@ public class CatalogActivity extends AppCompatActivity {
         Log.d("recycler","docsList "+recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(CatalogActivity.this));
         recyclerView.setAdapter(new Adapter(CatalogActivity.this, MainActivity.documents.keySet().toArray(new String[MainActivity.documents.size()])));
-
+        recyclerView.addItemDecoration(new DividerItemDecoration(CatalogActivity.this, DividerItemDecoration.VERTICAL));
+        ;
+        recyclerView.addItemDecoration(new VerticalSpaceItemDecoration(VERTICAL_ITEM_SPACE));
 
     }
 }

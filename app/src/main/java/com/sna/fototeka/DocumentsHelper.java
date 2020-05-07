@@ -84,7 +84,7 @@ public abstract class DocumentsHelper {
 
 
             }
-            MainActivity.documents.put(docName, new Document(docName, pages, getByteArray(pages.get(0),context), getBitmap(pages.get(0),context )));
+            if(pages.size()>0) {MainActivity.documents.put(docName, new Document(docName, pages, getByteArray(pages.get(0),context), getBitmap(pages.get(0),context )));}
             pos++;
         }
 

@@ -1,6 +1,7 @@
 package com.sna.fototeka;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,12 +10,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.HashMap;
 
 public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     Context context;
     String[] items;
-    String[] pages;
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -24,11 +23,26 @@ public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         return item;
     }
 
+
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, DisplayPages.class);
+                //intent.putExtra("filename",position);
+                context.startActivity(intent);
+            }
+        });
+
+
         ((Item)holder).textViewName.setText(items[position]);
-        ((Item)holder).textViewPages.setText(MainActivity.documents.get(items[position]).getNumberOfPages() +" страниц");
-    }
+        String key = items[position];
+        int nPages = MainActivity.documents.get(key).getNumberOfPages();
+        String suffix =  nPages == 1? " страница" :" страниц(ы)";
+
+        ((Item)holder).textViewPages.setText( nPages+suffix);
+    };
 
     @Override
     public int getItemCount() {
@@ -49,7 +63,6 @@ public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public Adapter(Context context, String[] items){
         this.context = context;
         this.items = items;
-        //this.docs = docs;
 
     }
 }
