@@ -10,10 +10,10 @@
     <string name="saveButtonText">Сохранить</string>>
     <string name="saveDocButtonText">Добавить ещё один документ</string>
     <string name="goToCatalogText">Перейти в каталог</string>
-    <string name = "emptyCatalogText">Здесь пока пусто...</string>
-    <string name = "addPagesButtonText">Добавить страницы</string>
-    <string name = "addPageButtonText">Добавить страницу</string>
-    <string name = "saveDocText">Сохрантить документ</string>
+    <string name="emptyCatalogText">Здесь пока пусто...</string>
+    <string name="addPagesButtonText">Добавить страницы</string>
+    <string name="addPageButtonText">Добавить страницу</string>
+    <string name="saveDocText">Сохрантить документ</string>
 
 
 </resources>

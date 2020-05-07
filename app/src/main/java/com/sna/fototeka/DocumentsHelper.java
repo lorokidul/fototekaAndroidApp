@@ -44,6 +44,11 @@ public abstract class DocumentsHelper {
         }
         return byteArray;
     }
+
+    public static String[] getDocNames(){
+        String[] names= MainActivity.documents.keySet().toArray(new String[MainActivity.documents.size()]);
+        return names;
+    }
     public static void fillOnStart(Context context, String[] filenames) {
         int pos = 0;
         ArrayList<String> addedDocs = new ArrayList<String>();

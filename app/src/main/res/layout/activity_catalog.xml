@@ -5,9 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".CatalogActivity">
-
-    <ListView
-        android:id="@+id/simpleListView"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp" />
+<androidx.recyclerview.widget.RecyclerView
+    android:id="@+id/docsList"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"></androidx.recyclerview.widget.RecyclerView>
 </androidx.constraintlayout.widget.ConstraintLayout>

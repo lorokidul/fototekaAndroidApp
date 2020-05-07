@@ -1,11 +1,16 @@
 package com.sna.fototeka;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -17,52 +22,19 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 public class CatalogActivity extends AppCompatActivity {
+    private RecyclerView recyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager layoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(fileList().length == 0) {
-            setContentView(R.layout.catalog_empty);
-            Button addDocBtn = findViewById(R.id.addDocButton);
-            View.OnClickListener onClickListener = new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(CatalogActivity.this, FillDataActivity.class);
-                    startActivity(intent);
-                    finish();
-                }
-            };
-            addDocBtn.setOnClickListener(onClickListener);
-        } else {
-            setContentView(R.layout.activity_catalog);
+        setContentView(R.layout.activity_catalog);
+        recyclerView = (RecyclerView) findViewById(R.id.docsList);
+        Log.d("recycler","docsList "+recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(CatalogActivity.this));
+        recyclerView.setAdapter(new Adapter(CatalogActivity.this, MainActivity.documents.keySet().toArray(new String[MainActivity.documents.size()])));
 
-
-            ListView listView = (findViewById(R.id.simpleListView));
-            ArrayList<String> addedDocNames = new ArrayList<String>(MainActivity.documents.keySet());
-            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, addedDocNames);
-            listView.setAdapter(arrayAdapter);
-            Log.d("APP_FILES", "APP_FILES***");
-            for (String file : addedDocNames) {
-                Log.d("file", "file---" + file);
-            }
-
-            AdapterView.OnItemClickListener itemListener = new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                    Toast toast = new Toast(CatalogActivity.this);
-                    ImageView toastImageView = new ImageView(CatalogActivity.this);
-                    TextView tw = (TextView) view;
-                    toastImageView.setImageBitmap(MainActivity.documents.get(tw.getText()).getBitmap());
-                    toast.setView(toastImageView);
-                    toast.show();
-
-                }
-            };
-            listView.setOnItemClickListener(itemListener);
-        }
 
     }
-
-
 }
