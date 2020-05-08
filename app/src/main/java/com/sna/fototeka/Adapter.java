@@ -26,11 +26,13 @@ public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        final int p = position;
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, DisplayPages.class);
-                //intent.putExtra("filename",position);
+
+                intent.putExtra("doc",items[p]);
                 context.startActivity(intent);
             }
         });

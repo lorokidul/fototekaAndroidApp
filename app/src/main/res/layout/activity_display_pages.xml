@@ -6,20 +6,11 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <LinearLayout
-        android:id="@+id/linearLayout3"
-        android:layout_width="181dp"
-        android:layout_height="124dp"
-        android:layout_marginTop="2dp"
-        android:layout_marginBottom="477dp"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-
-    </LinearLayout>
+    <androidx.viewpager2.widget.ViewPager2
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingStart ="80dp"
+        android:paddingEnd = "80dp"
+        android:id = "@+id/viewPagerImagesSlider"></androidx.viewpager2.widget.ViewPager2>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
