@@ -10,44 +10,37 @@ import android.widget.Button;
 
 import java.util.HashMap;
 
-
 public class MainActivity extends AppCompatActivity {
-
-    public static HashMap<String, Document> documents = new HashMap<String,Document>();
-
-
-
-
+    public static HashMap<String, Document> documents = new HashMap<String, Document>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        //for (String f : fileList()){deleteFile(f);}
         DocumentsHelper.initializeDocuments(MainActivity.this, fileList());
         super.onCreate(savedInstanceState);
 
-            setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main);
 
-            Button addDocButton = findViewById(R.id.addDocumentButton);
-            Button goToCatalogBtn = (Button) findViewById(R.id.goToCatalogFromMainButton);
+        Button addDocButton = findViewById(R.id.addDocumentButton);
+        Button goToCatalogBtn = findViewById(R.id.goToCatalogFromMainButton);
 
-            View.OnClickListener onClickListener = new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(MainActivity.this,   FillDataActivity.class);
-                    startActivity(intent);
-                }
-            };
-            addDocButton.setOnClickListener(onClickListener);
+        View.OnClickListener onClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, FillDataActivity.class);
+                startActivity(intent);
+            }
+        };
+        addDocButton.setOnClickListener(onClickListener);
 
-            View.OnClickListener onClickListenerGoBtn = new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(MainActivity.this, CatalogActivity.class);
-                    startActivity(intent);
-                }
-            };
-            goToCatalogBtn.setOnClickListener(onClickListenerGoBtn);
-        }
+        View.OnClickListener onClickListenerGoBtn = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, CatalogActivity.class);
+                startActivity(intent);
+            }
+        };
+        goToCatalogBtn.setOnClickListener(onClickListenerGoBtn);
+    }
 
 
     @Override

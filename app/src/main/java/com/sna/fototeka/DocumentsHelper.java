@@ -3,20 +3,16 @@ package com.sna.fototeka;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.util.Log;
 
-import com.sna.fototeka.MainActivity;
-
-import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 
 public abstract class DocumentsHelper {
     public static String separator = "_";
-    private static Bitmap getBitmap(String filename, Context context){
+
+    private static Bitmap getBitmap(String filename, Context context) {
         FileInputStream file = null;
         Bitmap bitmap = null;
         try {
@@ -29,7 +25,7 @@ public abstract class DocumentsHelper {
         return bitmap;
     }
 
-    private static byte[] getByteArray(String filename, Context context){
+    private static byte[] getByteArray(String filename, Context context) {
         FileInputStream file = null;
         byte[] byteArray = null;
         try {
@@ -45,17 +41,18 @@ public abstract class DocumentsHelper {
         return byteArray;
     }
 
-    public static String[] getDocNames(){
-        String[] names= MainActivity.documents.keySet().toArray(new String[MainActivity.documents.size()]);
+    public static String[] getDocNames() {
+        String[] names = MainActivity.documents.keySet().toArray(new String[MainActivity.documents.size()]);
         return names;
     }
+
     public static void initializeDocuments(Context context, String[] filenames) {
         int pos = 0;
         ArrayList<String> addedDocs = new ArrayList<String>();
         String docName = "";
         while (pos < filenames.length) {
             String fName = filenames[pos];
-            docName = fName.substring(0,fName.lastIndexOf(separator));
+            docName = fName.substring(0, fName.lastIndexOf(separator));
             ArrayList<String> pages = new ArrayList<String>();
             if (!MainActivity.documents.containsKey(docName)) {
                 for (int i = pos; i < filenames.length; i++) {
@@ -76,7 +73,7 @@ public abstract class DocumentsHelper {
                             }
                             pages.add(filename);
                         }
-                    } catch(Exception e){
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
 
@@ -84,7 +81,9 @@ public abstract class DocumentsHelper {
 
 
             }
-            if(pages.size()>0) {MainActivity.documents.put(docName, new Document(docName, pages, getByteArray(pages.get(0),context), getBitmap(pages.get(0),context )));}
+            if (pages.size() > 0) {
+                MainActivity.documents.put(docName, new Document(docName, pages, getByteArray(pages.get(0), context), getBitmap(pages.get(0), context)));
+            }
             pos++;
         }
 
