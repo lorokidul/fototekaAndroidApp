@@ -10,10 +10,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.List;
+
 
 public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     Context context;
-    String[] items;
+    List<DocumentWithFiles> docsList;
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -25,22 +27,21 @@ public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
         final int p = position;
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, DisplayPages.class);
-
-                intent.putExtra("doc",items[p]);
+                intent.putExtra("doc",docsList.get(position).doc.name);
                 context.startActivity(intent);
             }
         });
 
 
-        ((Item)holder).textViewName.setText(items[position]);
-        String key = items[position];
-        int nPages = MainActivity.documents.get(key).getNumberOfPages();
+        ((Item)holder).textViewName.setText(docsList.get(position).doc.name);
+        String key = docsList.get(position).doc.name;
+        int nPages = docsList.get(position).doc.numberOfPages;
         String suffix =  nPages == 1? " страница" :" страниц(ы)";
 
         ((Item)holder).textViewPages.setText( nPages+suffix);
@@ -48,7 +49,7 @@ public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return items.length;
+        return docsList.size();
     }
 
     public class Item extends RecyclerView.ViewHolder{
@@ -62,9 +63,9 @@ public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
     }
 
-    public Adapter(Context context, String[] items){
+    public Adapter(Context context,  List<DocumentWithFiles> docsList){
         this.context = context;
-        this.items = items;
+        this.docsList = docsList;
 
     }
 }

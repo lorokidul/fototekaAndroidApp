@@ -21,6 +21,18 @@ import java.util.List;
 public class DisplayPages extends AppCompatActivity {
     private ViewPager2 viewPager2;
     private static final int PAGE_LIMIT = 3;
+
+    private static ArrayList<SliderItem> getSliderItems(List<Page>  pages) {
+
+       ArrayList<SliderItem> sliderItems = new ArrayList<SliderItem>();
+
+        for (Page page : pages) {
+            sliderItems.add(new SliderItem(page.filename));
+        }
+
+        return sliderItems;
+
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,15 +40,10 @@ public class DisplayPages extends AppCompatActivity {
         String documentName = getIntent().getStringExtra("doc");
         viewPager2 = findViewById(R.id.viewPagerImagesSlider);
 
-        Document doc = MainActivity.documents.get(documentName);
-        Log.d("DOC","DOC " +doc);
-        Log.d("DOC FILES", "DF"+doc.getFilenames());
-        Log.d("DOC FILES", "DSI items");
-        for(SliderItem i : doc.getSliderItems())  {Log.d("FILE CONTENT","file"+i.getImage()+" bm size " +i.getBitmap(DisplayPages.this));}
-        Log.d("FILES","FILES");
-        for(String f : fileList())  {Log.d("FILE CONTENT","file "+f);}
+        AppDatabase db = App.getInstance().getDatabase();
+        List<Page> pages = db.pageDao().getFilesByDocName(documentName);
 
-        List<SliderItem> sliderItems = doc.getSliderItems();
+        List<SliderItem> sliderItems = getSliderItems(pages);
         viewPager2.setAdapter(new SliderAdapter(sliderItems, viewPager2, DisplayPages.this));
 
         viewPager2.setClipToPadding(false);

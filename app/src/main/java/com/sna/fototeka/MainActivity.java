@@ -11,11 +11,9 @@ import android.widget.Button;
 import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
-    public static HashMap<String, Document> documents = new HashMap<String, Document>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        DocumentsHelper.initializeDocuments(MainActivity.this, fileList());
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);

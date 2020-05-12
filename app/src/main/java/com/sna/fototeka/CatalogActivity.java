@@ -1,26 +1,16 @@
 package com.sna.fototeka;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import java.util.ArrayList;
+import java.util.List;
 
 public class CatalogActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
@@ -32,14 +22,31 @@ public class CatalogActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_catalog);
-        recyclerView = (RecyclerView) findViewById(R.id.docsList);
-        Log.d("recycler","docsList "+recyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(CatalogActivity.this));
-        recyclerView.setAdapter(new Adapter(CatalogActivity.this, MainActivity.documents.keySet().toArray(new String[MainActivity.documents.size()])));
-        recyclerView.addItemDecoration(new DividerItemDecoration(CatalogActivity.this, DividerItemDecoration.VERTICAL));
-        ;
-        recyclerView.addItemDecoration(new VerticalSpaceItemDecoration(VERTICAL_ITEM_SPACE));
+        AppDatabase db = App.getInstance().getDatabase();
+        if (db.docDao().getAll().size()==0) {
+            setContentView(R.layout.catalog_empty);
+            Button addDocButton = findViewById(R.id.addDocButton);
+            View.OnClickListener onClickListener = new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(CatalogActivity.this, FillDataActivity.class);
+                    startActivity(intent);
+                }
+            };
+            addDocButton.setOnClickListener(onClickListener);
+        } else {
+            setContentView(R.layout.activity_catalog);
+            recyclerView = (RecyclerView) findViewById(R.id.docsList);
 
+
+            List<DocumentWithFiles> docsList = db.docDao().getDocWithFiles();
+
+            recyclerView.setLayoutManager(new LinearLayoutManager(CatalogActivity.this));
+
+            recyclerView.setAdapter(new Adapter(CatalogActivity.this, docsList));
+            recyclerView.addItemDecoration(new DividerItemDecoration(CatalogActivity.this, DividerItemDecoration.VERTICAL));
+            ;
+            recyclerView.addItemDecoration(new VerticalSpaceItemDecoration(VERTICAL_ITEM_SPACE));
+        }
     }
 }

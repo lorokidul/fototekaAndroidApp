@@ -12,6 +12,7 @@ import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.room.Dao;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
@@ -34,7 +35,6 @@ public class PhotoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_photo);
         final String docName = getIntent().getStringExtra("docName");
         final String filename = getIntent().getStringExtra("filename");
-        MainActivity.documents.put(docName, new Document(docName, new ArrayList<String>(), null, null));
 
         imageView = findViewById(R.id.savedImageView);
 
@@ -44,6 +44,7 @@ public class PhotoActivity extends AppCompatActivity {
         intent.putExtra("pageNumber", pageCounter);
 
         startActivityForResult(intent, 0);
+
         takePicBtn = findViewById(R.id.remakeButton);
         saveDocButton = findViewById(R.id.saveDocButton);
         addPageBtn = findViewById(R.id.addPageButton);
@@ -69,7 +70,6 @@ public class PhotoActivity extends AppCompatActivity {
         View.OnClickListener onClickListenerSaveDoc = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MainActivity.documents.put(docName, new Document(docName, pages, docPicByteArray, ((BitmapDrawable) imageView.getDrawable()).getBitmap()));
                 Intent intent = new Intent(PhotoActivity.this, DisplaySavedActivity.class);
                 intent.putExtra("docName", docName);
                 intent.putExtra("docPic", docPicByteArray);
@@ -93,7 +93,8 @@ public class PhotoActivity extends AppCompatActivity {
 
         ByteArrayOutputStream bStream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, bStream);
-        String pageName = getIntent().getStringExtra("docName") + DocumentsHelper.separator + pageCounter + ".png";
+        String docName = getIntent().getStringExtra("docName");
+        String pageName = docName + "_" + pageCounter + ".png";
         pages.add(pageName);
         byte[] byteArray = bStream.toByteArray();
         docPicByteArray = byteArray.clone();
@@ -102,6 +103,20 @@ public class PhotoActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        AppDatabase db = App.getInstance().getDatabase();
+        PageDao pageDao = db.pageDao();
+        DocDao docDao = db.docDao();
+        Page page = new Page();
+        page.id = fileList().length;
+        page.document = docName;
+        page.filename = pageName;
+        page.pageNumber = pageCounter;
+        page.docId = getIntent().getIntExtra("docId", 0);
+        Doc doc = docDao.getById(page.docId);
+        doc.numberOfPages=pageCounter;
+        docDao.update(doc);
+        pageDao.insert(page);
+
         pageCounter++;
 
 

@@ -8,6 +8,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.room.Dao;
 
 
 public class FillDataActivity extends AppCompatActivity {
@@ -25,11 +26,23 @@ public class FillDataActivity extends AppCompatActivity {
                 Intent intent = new Intent(FillDataActivity.this, PhotoActivity.class);
                 EditText editText = findViewById(R.id.nameEditBox);
                 String docName = editText.getText().toString();
-                if (MainActivity.documents.containsKey(docName)) {
+                AppDatabase db = App.getInstance().getDatabase();
+                if (db.docDao().getDocsByName(docName).size() >0) {
                     Toast.makeText(FillDataActivity.this, "Документ с таким наименованием уже есть.", Toast.LENGTH_LONG).show();
                 } else {
+
+
+                    DocDao docDao = db.docDao();
+                    Doc doc = new Doc();
+                    doc.id = docDao.getAll().size();
+                    doc.name = docName;
+                    doc.category = "";
+                    doc.numberOfPages = 1;
+                    docDao.insert(doc);
+
                     intent.putExtra("docName", docName);
                     intent.putExtra("filename", docName + ".png");
+                    intent.putExtra("docId",doc.id);
                     startActivity(intent);
                     finish();
                 }
