@@ -1,6 +1,8 @@
 package com.sna.fototeka;
 
+import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -22,31 +24,45 @@ public class CatalogActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        AppDatabase db = App.getInstance().getDatabase();
-        if (db.docDao().getAll().size()==0) {
-            setContentView(R.layout.catalog_empty);
-            Button addDocButton = findViewById(R.id.addDocButton);
-            View.OnClickListener onClickListener = new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(CatalogActivity.this, FillDataActivity.class);
-                    startActivity(intent);
-                }
-            };
-            addDocButton.setOnClickListener(onClickListener);
-        } else {
-            setContentView(R.layout.activity_catalog);
-            recyclerView = (RecyclerView) findViewById(R.id.docsList);
+        SeletcDocWithFiles selectDocs = new SeletcDocWithFiles();
+        selectDocs.execute();
+        }
 
+    class SeletcDocWithFiles extends AsyncTask<String,Void, List<DocumentWithFiles>> {
 
+        @Override
+        protected List<DocumentWithFiles> doInBackground(String... params) {
+            AppDatabase db = App.getInstance().getDatabase();
             List<DocumentWithFiles> docsList = db.docDao().getDocWithFiles();
+            return docsList;
+        }
 
-            recyclerView.setLayoutManager(new LinearLayoutManager(CatalogActivity.this));
+        @Override
+        protected void onPostExecute(List<DocumentWithFiles> docsList) {
+            super.onPostExecute(docsList);
+            if (docsList.size() == 0) {
+                setContentView(R.layout.catalog_empty);
+                Button addDocButton = findViewById(R.id.addDocButton);
+                View.OnClickListener onClickListener = new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(CatalogActivity.this, FillDataActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                    }
+                };
+                addDocButton.setOnClickListener(onClickListener);
+            } else {
+                setContentView(R.layout.activity_catalog);
 
-            recyclerView.setAdapter(new Adapter(CatalogActivity.this, docsList));
-            recyclerView.addItemDecoration(new DividerItemDecoration(CatalogActivity.this, DividerItemDecoration.VERTICAL));
-            ;
-            recyclerView.addItemDecoration(new VerticalSpaceItemDecoration(VERTICAL_ITEM_SPACE));
+                recyclerView = findViewById(R.id.docsList);
+                recyclerView.setLayoutManager(new LinearLayoutManager(CatalogActivity.this));
+                recyclerView.setAdapter(new Adapter(CatalogActivity.this, docsList));
+                recyclerView.addItemDecoration(new DividerItemDecoration(CatalogActivity.this, DividerItemDecoration.VERTICAL));
+                recyclerView.addItemDecoration(new VerticalSpaceItemDecoration(VERTICAL_ITEM_SPACE));
+            }
         }
     }
+
 }
+

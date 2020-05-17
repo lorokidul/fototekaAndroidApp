@@ -23,15 +23,10 @@ public class PhotoActivity extends AppCompatActivity {
     ImageView imageView;
     Button takePicBtn, saveDocButton, addPageBtn;
     int pageCounter = 0;
-    byte[] docPicByteArray;
-    ArrayList<String> pages = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        pages = new ArrayList<>();
-
         setContentView(R.layout.activity_photo);
         final String docName = getIntent().getStringExtra("docName");
         final String filename = getIntent().getStringExtra("filename");
@@ -53,7 +48,7 @@ public class PhotoActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(intent, 0);
+                startActivityForResult(intent, 1);
             }
         };
 
@@ -61,9 +56,7 @@ public class PhotoActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(intent, 0);
-
-                pageCounter++;
+                startActivityForResult(intent, 2);
             }
         };
 
@@ -72,7 +65,6 @@ public class PhotoActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(PhotoActivity.this, DisplaySavedActivity.class);
                 intent.putExtra("docName", docName);
-                intent.putExtra("docPic", docPicByteArray);
                 startActivity(intent);
             }
 
@@ -86,38 +78,41 @@ public class PhotoActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
 
-        Bitmap bitmap = (Bitmap) data.getExtras().get("data");
-        imageView.setImageBitmap(bitmap);
+            super.onActivityResult(requestCode, resultCode, data);
+            Bitmap bitmap = (Bitmap) data.getExtras().get("data");
+            imageView.setImageBitmap(bitmap);
+            String docName = getIntent().getStringExtra("docName");
+            String pageName = docName + "_" + pageCounter + ".png";
+            Page page = new Page();
+            page.id = fileList().length;
+            page.document = docName;
+            page.filename = pageName;
+            page.pageNumber = pageCounter;
+            page.docId = getIntent().getIntExtra("docId", 0);
 
-        ByteArrayOutputStream bStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, bStream);
-        String docName = getIntent().getStringExtra("docName");
-        String pageName = docName + "_" + pageCounter + ".png";
-        pages.add(pageName);
-        byte[] byteArray = bStream.toByteArray();
-        docPicByteArray = byteArray.clone();
-        try (FileOutputStream output = openFileOutput(pageName, Context.MODE_PRIVATE)) {
-           output.write(byteArray);
-        } catch (IOException e) {
-            e.printStackTrace();
+        if(requestCode==1){
+
+            UpdatePageInDatabase updatePage = new UpdatePageInDatabase(getApplicationContext());
+            updatePage.execute(page);
+
+        } else {
+            ByteArrayOutputStream bStream = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, bStream);
+
+            byte[] byteArray = bStream.toByteArray();
+            try (FileOutputStream output = openFileOutput(pageName, Context.MODE_PRIVATE)) {
+                output.write(byteArray);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            InsertPageToDatabase insertPage = new InsertPageToDatabase(getApplicationContext());
+            insertPage.execute(page);
+            pageCounter++;
+
         }
-        AppDatabase db = App.getInstance().getDatabase();
-        PageDao pageDao = db.pageDao();
-        DocDao docDao = db.docDao();
-        Page page = new Page();
-        page.id = fileList().length;
-        page.document = docName;
-        page.filename = pageName;
-        page.pageNumber = pageCounter;
-        page.docId = getIntent().getIntExtra("docId", 0);
-        Doc doc = docDao.getById(page.docId);
-        doc.numberOfPages=pageCounter;
-        docDao.update(doc);
-        pageDao.insert(page);
 
-        pageCounter++;
 
 
     }

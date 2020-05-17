@@ -5,11 +5,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.util.List;
 
 public class DisplaySavedActivity extends AppCompatActivity {
 
@@ -18,15 +24,11 @@ public class DisplaySavedActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_saved);
         String docName = getIntent().getStringExtra("docName");
-        byte[] byteArray = getIntent().getByteArrayExtra("docPic");
-        Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray,0,byteArray.length);
-        ImageView imageView = (ImageView)findViewById(R.id.savedImageView);
-        imageView.setImageBitmap(bitmap);
-        TextView  textView = (TextView)findViewById(R.id.savedTextView);
-        textView.setText("Документ " +docName+" сохранен!");
+        TextView textView = findViewById(R.id.savedTextView);
+        textView.setText("Документ " + docName + " сохранен!");
+        Button addDocBtn = findViewById(R.id.addMoreDocButton);
+        Button goToCatalogBtn = findViewById(R.id.goToCatalogButton);
 
-        Button addDocBtn = (Button)findViewById(R.id.addMoreDocButton);
-        Button goToCatalogBtn = (Button)findViewById(R.id.goToCatalogButton);
         View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -44,5 +46,40 @@ public class DisplaySavedActivity extends AppCompatActivity {
         };
         addDocBtn.setOnClickListener(onClickListener);
         goToCatalogBtn.setOnClickListener(onClickListenerGoBtn);
+        FinDocPic findDocPic = new FinDocPic();
+        findDocPic.execute(docName);
+
+    }
+
+    class FinDocPic extends AsyncTask<String, Void, Bitmap> {
+        @Override
+        protected Bitmap doInBackground(String... params) {
+            PageDao pageDao = App.getInstance().getDatabase().pageDao();
+            List<Page> pages = pageDao.getFilesByDocName(params[0]);
+            Log.d("PAGES", params[0] +"|"+ Integer.toString(pages.size() ));
+            if(pages.size()>0){
+                String filename = pages.get(0).filename;
+                FileInputStream file = null;
+                try {
+                    file = openFileInput(filename);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+                Log.d("PAGES", params[0] +"|"+ Integer.toString(pages.size() )+"|"+filename);
+
+                Bitmap bitmap = BitmapFactory.decodeStream(file);
+                return bitmap;
+
+            }else{
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap bitmap) {
+            super.onPostExecute(bitmap);
+            ImageView imageView = findViewById(R.id.savedImageView);
+            imageView.setImageBitmap(bitmap);
+        }
     }
 }

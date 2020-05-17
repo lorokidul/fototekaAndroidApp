@@ -8,6 +8,7 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -36,30 +37,46 @@ public class DisplayPages extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_display_pages);
         String documentName = getIntent().getStringExtra("doc");
-        viewPager2 = findViewById(R.id.viewPagerImagesSlider);
+        SelectPagesFromDatabase selectPages = new SelectPagesFromDatabase();
+        selectPages.execute(documentName);
+    }
 
-        AppDatabase db = App.getInstance().getDatabase();
-        List<Page> pages = db.pageDao().getFilesByDocName(documentName);
+    public class SelectPagesFromDatabase extends AsyncTask<String,Void, List<Page>> {
 
-        List<SliderItem> sliderItems = getSliderItems(pages);
-        viewPager2.setAdapter(new SliderAdapter(sliderItems, viewPager2, DisplayPages.this));
 
-        viewPager2.setClipToPadding(false);
-        viewPager2.setClipChildren(false);
-        viewPager2.setOffscreenPageLimit(3);
-        viewPager2.getChildAt(0).setOverScrollMode(RecyclerView.OVER_SCROLL_NEVER);
+        @Override
+        protected List<Page> doInBackground(String ...params) {
+            PageDao pageDao = App.getInstance().getDatabase().pageDao();
+            String docName = params[0];
+            return  pageDao.getFilesByDocName(docName);
+        }
 
-        CompositePageTransformer compositePageTransformer = new CompositePageTransformer();
-        compositePageTransformer.addTransformer(new MarginPageTransformer(40));
-        compositePageTransformer.addTransformer(new ViewPager2.PageTransformer(){
-            @Override
-            public void transformPage(View page, float position){
-                float r = 1 - Math.abs(position);
-                page.setScaleY(0.85f+r*0.15f);
-            }
-        });
-        viewPager2.setPageTransformer(compositePageTransformer);
+        @Override
+        protected void onPostExecute(List<Page> pages) {
+            super.onPostExecute(pages);
+            setContentView(R.layout.activity_display_pages);
+
+            viewPager2 = findViewById(R.id.viewPagerImagesSlider);
+
+            List<SliderItem> sliderItems = getSliderItems(pages);
+            viewPager2.setAdapter(new SliderAdapter(sliderItems, viewPager2, DisplayPages.this));
+
+            viewPager2.setClipToPadding(false);
+            viewPager2.setClipChildren(false);
+            viewPager2.setOffscreenPageLimit(3);
+            viewPager2.getChildAt(0).setOverScrollMode(RecyclerView.OVER_SCROLL_NEVER);
+
+            CompositePageTransformer compositePageTransformer = new CompositePageTransformer();
+            compositePageTransformer.addTransformer(new MarginPageTransformer(40));
+            compositePageTransformer.addTransformer(new ViewPager2.PageTransformer(){
+                @Override
+                public void transformPage(View page, float position){
+                    float r = 1 - Math.abs(position);
+                    page.setScaleY(0.85f+r*0.15f);
+                }
+            });
+            viewPager2.setPageTransformer(compositePageTransformer);
+        }
     }
 }

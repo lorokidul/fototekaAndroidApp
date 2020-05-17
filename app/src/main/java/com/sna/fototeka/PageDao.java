@@ -20,6 +20,8 @@ public interface PageDao {
     @Query("SELECT * FROM page WHERE document== :doc")
     List<Page> getFilesByDocName(String doc);
 
+
+
     @Insert
     void insert(Page page);
 
