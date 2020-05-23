@@ -18,11 +18,16 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Random;
+import java.util.UUID;
 
 public class PhotoActivity extends AppCompatActivity {
     ImageView imageView;
     Button takePicBtn, saveDocButton, addPageBtn;
-    int pageCounter = 0;
+    int pageCounter = 1;
+    public static final int CODE_ADD = 0;
+    public static final int CODE_REMAKE = 1;
+    public static final int CODE_START = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +43,7 @@ public class PhotoActivity extends AppCompatActivity {
         intent.putExtra("docName", filename);
         intent.putExtra("pageNumber", pageCounter);
 
-        startActivityForResult(intent, 0);
+        startActivityForResult(intent, CODE_START);
 
         takePicBtn = findViewById(R.id.remakeButton);
         saveDocButton = findViewById(R.id.saveDocButton);
@@ -48,7 +53,7 @@ public class PhotoActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(intent, 1);
+                startActivityForResult(intent, CODE_REMAKE);
             }
         };
 
@@ -56,7 +61,7 @@ public class PhotoActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(intent, 2);
+                startActivityForResult(intent, CODE_ADD);
             }
         };
 
@@ -83,33 +88,33 @@ public class PhotoActivity extends AppCompatActivity {
             Bitmap bitmap = (Bitmap) data.getExtras().get("data");
             imageView.setImageBitmap(bitmap);
             String docName = getIntent().getStringExtra("docName");
-            String pageName = docName + "_" + pageCounter + ".png";
+
             Page page = new Page();
-            page.id = fileList().length;
+            if(requestCode==CODE_ADD){  pageCounter++; }
+            String pageName = docName + "_" + pageCounter + ".png";
             page.document = docName;
             page.filename = pageName;
             page.pageNumber = pageCounter;
             page.docId = getIntent().getIntExtra("docId", 0);
-
-        if(requestCode==1){
-
-            UpdatePageInDatabase updatePage = new UpdatePageInDatabase(getApplicationContext());
-            updatePage.execute(page);
-
-        } else {
             ByteArrayOutputStream bStream = new ByteArrayOutputStream();
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, bStream);
-
             byte[] byteArray = bStream.toByteArray();
+
             try (FileOutputStream output = openFileOutput(pageName, Context.MODE_PRIVATE)) {
                 output.write(byteArray);
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
+            if(requestCode==CODE_REMAKE){
+
+            UpdatePageInDatabase updatePage = new UpdatePageInDatabase(getApplicationContext());
+            updatePage.execute(page);
+
+            } else {
+
             InsertPageToDatabase insertPage = new InsertPageToDatabase(getApplicationContext());
             insertPage.execute(page);
-            pageCounter++;
 
         }
 

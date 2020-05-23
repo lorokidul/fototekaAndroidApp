@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey;
 
 @Entity
 public class Page {
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     public int id;
     public String document;
     public String filename;

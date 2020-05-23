@@ -41,4 +41,7 @@ public interface DocDao {
     @Delete
     void delete(Doc doc);
 
+    @Query("DELETE FROM doc")
+    void deleteAll();
+
 }
