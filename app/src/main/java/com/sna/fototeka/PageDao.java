@@ -31,6 +31,10 @@ public interface PageDao {
     @Delete
     void delete(Page page);
 
+
+    @Query("DELETE FROM page WHERE document== :doc")
+    void deletePagesOfDoc(String doc);
+
     @Query("DELETE FROM page")
     void deleteAll();
 }

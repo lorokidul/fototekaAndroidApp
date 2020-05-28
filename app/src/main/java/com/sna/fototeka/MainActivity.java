@@ -17,8 +17,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        DeleteRows deleteRows = new DeleteRows();
-        deleteRows.execute();
+        //DeleteRows deleteRows = new DeleteRows();
+        //deleteRows.execute();
         setContentView(R.layout.activity_main);
 
         Button addDocButton = findViewById(R.id.addDocumentButton);
