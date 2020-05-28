@@ -2,6 +2,7 @@ package com.sna.fototeka;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,10 +42,9 @@ public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         ((Item)holder).textViewName.setText(docsList.get(position).doc.name);
         String key = docsList.get(position).doc.name;
-        int nPages = docsList.get(position).doc.numberOfPages;
+        int nPages = docsList.get(position).pages.size();
         String suffix =  nPages == 1? " страница" :" страниц(ы)";
-
-        ((Item)holder).textViewPages.setText( nPages+suffix);
+        ((Item)holder).textViewPages.setText( nPages+suffix );
     };
 
     @Override

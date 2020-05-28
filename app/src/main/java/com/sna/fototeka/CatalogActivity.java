@@ -24,11 +24,11 @@ public class CatalogActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        SeletcDocWithFiles selectDocs = new SeletcDocWithFiles();
+        SelectDocWithFiles selectDocs = new SelectDocWithFiles();
         selectDocs.execute();
         }
 
-    class SeletcDocWithFiles extends AsyncTask<String,Void, List<DocumentWithFiles>> {
+    class SelectDocWithFiles extends AsyncTask<String,Void, List<DocumentWithFiles>> {
 
         @Override
         protected List<DocumentWithFiles> doInBackground(String... params) {

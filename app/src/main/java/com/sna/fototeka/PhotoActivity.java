@@ -108,13 +108,13 @@ public class PhotoActivity extends AppCompatActivity {
 
             if(requestCode==CODE_REMAKE){
 
-            UpdatePageInDatabase updatePage = new UpdatePageInDatabase(getApplicationContext());
-            updatePage.execute(page);
+                UpdatePageInDatabase updatePage = new UpdatePageInDatabase(getApplicationContext());
+                updatePage.execute(page);
 
             } else {
 
-            InsertPageToDatabase insertPage = new InsertPageToDatabase(getApplicationContext());
-            insertPage.execute(page);
+                InsertPageToDatabase insertPage = new InsertPageToDatabase(getApplicationContext());
+                insertPage.execute(page);
 
         }
 

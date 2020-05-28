@@ -6,10 +6,10 @@ import android.widget.Toast;
 
 import java.util.List;
 
-class SeletcDocsFromDatabase extends AsyncTask<String,Void, List<Doc>> {
+class SelectDocsFromDatabase extends AsyncTask<String,Void, List<Doc>> {
     private final Context context;
     private String docName;
-    public SeletcDocsFromDatabase(final Context mContext){
+    public SelectDocsFromDatabase(final Context mContext){
         context = mContext;
     }
     @Override

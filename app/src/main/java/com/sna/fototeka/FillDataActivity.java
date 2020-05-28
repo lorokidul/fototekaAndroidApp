@@ -1,6 +1,5 @@
 package com.sna.fototeka;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -28,7 +27,7 @@ public class FillDataActivity extends AppCompatActivity {
             public void onClick(View v) {
                 EditText editText = findViewById(R.id.nameEditBox);
                 String docName = editText.getText().toString();
-                SeletcDocsFromDatabase selectDoscTask = new SeletcDocsFromDatabase(getApplicationContext());
+                SelectDocsFromDatabase selectDoscTask = new SelectDocsFromDatabase(getApplicationContext());
                 selectDoscTask.execute(docName);
 
             }
