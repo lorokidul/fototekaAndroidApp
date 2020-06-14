@@ -34,7 +34,7 @@ public class SliderAdapter extends  RecyclerView.Adapter<SliderAdapter.SliderVie
 
     @Override
     public void onBindViewHolder(@NonNull SliderViewHolder holder, int position) {
-    holder.setImage(sliderItems.get(position));
+        holder.setImage(sliderItems.get(position));
     }
 
     @Override

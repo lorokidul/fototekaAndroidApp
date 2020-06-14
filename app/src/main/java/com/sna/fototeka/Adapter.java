@@ -5,18 +5,23 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 
-public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements Filterable {
     Context context;
     List<DocumentWithFiles> docsList;
+    List<DocumentWithFiles> docsListAll;
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -52,7 +57,7 @@ public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         String key = docsList.get(position).doc.name;
         int nPages = docsList.get(position).pages.size();
         String suffix =  nPages == 1? " страница" :" страниц(ы)";
-        ((Item)holder).textViewPages.setText( nPages+suffix );
+        //((Item)holder).textViewPages.setText( nPages+suffix );
         ((Item)holder).deleteIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -70,6 +75,36 @@ public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         return docsList.size();
     }
 
+    @Override
+    public Filter getFilter() {
+        return filter;
+    }
+
+    Filter filter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            List<DocumentWithFiles> filteredList = new ArrayList<>();
+            if(constraint.toString().isEmpty()){filteredList.addAll(docsListAll);
+            }else{
+                for(DocumentWithFiles elem: docsListAll){
+                    if(elem.doc.name.toLowerCase().contains(constraint.toString().toLowerCase())){
+                        filteredList.add(elem);
+                    }
+                }
+            }
+            FilterResults filterResults = new FilterResults();
+            filterResults.values = filteredList;
+            return filterResults;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults filterResults) {
+            docsList.clear();
+            docsList.addAll((Collection<? extends DocumentWithFiles>) filterResults.values);
+            notifyDataSetChanged();
+        }
+    };
+
     public class Item extends RecyclerView.ViewHolder{
         TextView textViewName;
         TextView textViewPages;
@@ -85,6 +120,7 @@ public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public Adapter(Context context,  List<DocumentWithFiles> docsList){
         this.context = context;
         this.docsList = docsList;
+        this.docsListAll = new ArrayList<>(docsList);
 
     }
 }

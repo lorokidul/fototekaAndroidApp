@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 @Entity
 public class Doc {
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     public long id;
     public String name;
     public int numberOfPages;

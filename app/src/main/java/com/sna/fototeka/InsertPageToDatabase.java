@@ -18,7 +18,7 @@ class InsertPageToDatabase extends AsyncTask<Page, Void, Void>  {
         PageDao pageDao = db.pageDao();
         DocDao docDao = db.docDao();
 
-        Doc doc = docDao.getById(page.docId);
+        Doc doc = docDao.getDocsByName(page.document).get(0);
         doc.numberOfPages=page.pageNumber;
         docDao.update(doc);
         pageDao.insert(page);

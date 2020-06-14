@@ -17,6 +17,7 @@ public interface DocDao {
     @Query("SELECT * FROM doc WHERE id = :id")
     Doc getById(long id);
 
+
     @Query("SELECT * FROM doc WHERE name = :name")
    List<Doc> getDocsByName(String name);
 

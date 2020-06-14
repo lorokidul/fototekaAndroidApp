@@ -12,7 +12,7 @@
         android:layout_height="0dp"
         android:layout_marginStart="59dp"
         android:layout_marginTop="89dp"
-        android:layout_marginBottom="355dp"
+        android:layout_marginBottom="385dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@+id/buttonAddPages"
         app:layout_constraintStart_toStartOf="parent"
@@ -21,7 +21,7 @@
         <TextView
             android:id="@+id/nameText"
             android:layout_width="match_parent"
-            android:layout_height="86dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/headerNameText"
             android:textSize="18sp" />
@@ -29,7 +29,7 @@
         <EditText
             android:id="@+id/nameEditBox"
             android:layout_width="match_parent"
-            android:layout_height="102dp"
+            android:layout_height="34dp"
             android:layout_weight="1"
             android:autofillHints=""
             android:ems="10"

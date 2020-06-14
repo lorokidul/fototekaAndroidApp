@@ -16,7 +16,7 @@ class InsertDocToDatabase extends AsyncTask<String, Void, Doc>  {
         String docName = params[0];
         DocDao docDao  = App.getInstance().getDatabase().docDao();
         Doc doc = createDoc(docName);
-        doc.id = docDao.getAll().size();
+        //doc.id = docDao.getAll().size();
         docDao.insert(doc);
         return doc;
     }

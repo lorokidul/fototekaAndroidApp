@@ -5,16 +5,21 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 
 public class DisplaySavedActivity extends AppCompatActivity {
@@ -58,17 +63,15 @@ public class DisplaySavedActivity extends AppCompatActivity {
             List<Page> pages = pageDao.getFilesByDocName(params[0]);
             Log.d("PAGES", params[0] +"|"+ Integer.toString(pages.size() ));
             if(pages.size()>0){
-                String filename = pages.get(0).filename;
-                FileInputStream file = null;
-                try {
-                    file = openFileInput(filename);
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                }
-                Log.d("PAGES", params[0] +"|"+ Integer.toString(pages.size() )+"|"+filename);
 
-                Bitmap bitmap = BitmapFactory.decodeStream(file);
-                return bitmap;
+                String filename = pages.get(0).filename;
+
+                Bitmap bitmap = BitmapFactory.decodeFile(filename);
+                Matrix matrix = PhotoFunctions.getRotationMatrix(filename);
+                Bitmap rotatedBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+
+
+                return rotatedBitmap;
 
             }else{
                 return null;

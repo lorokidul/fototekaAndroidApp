@@ -3,8 +3,8 @@
     <string name="addDocumentButtonText">Добавить документ</string>
     <string name="okButtonText">OK</string>
     <string name="remakeButtonText">Переснять</string>
-    <string name="headerNameText">Введите наименование документа</string>
-    <string name="fillNameFormText">Наименование</string>
+    <string name="headerNameText">Введите название документа</string>
+    <string name="fillNameFormText"></string>
     <string name="headerCategoryText">Введите категорию</string>
     <string name="fillCategoryFormText">Категория</string>
     <string name="saveButtonText">Сохранить</string>>
