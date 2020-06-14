@@ -33,6 +33,7 @@ public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> imple
 
     public void removeItem(int position) {
         docsList.remove(position);
+        docsListAll.remove(position);
         notifyDataSetChanged();
     }
 
