@@ -19,18 +19,25 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
+        android:layout_alignBottom="@id/docNameItem"
         android:layout_marginEnd="29dp"
-        android:layout_centerInParent="true"
-        android:layout_centerVertical="true"
-        android:foregroundGravity="center_vertical"
         android:src="@drawable/ic_delete" />
 
     <TextView
         android:id="@+id/numberOfPages"
+        android:textColor="@color/colorPrimary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/docNameItem"
         android:layout_marginTop="8dp"
-        android:textSize="11sp" />
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/docDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/numberOfPages"
+        android:layout_alignParentEnd="false"
+        android:textSize="12sp" />
 
 </RelativeLayout>

@@ -4,6 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 
 class InsertDocToDatabase extends AsyncTask<String, Void, Doc>  {
 
@@ -26,6 +31,10 @@ class InsertDocToDatabase extends AsyncTask<String, Void, Doc>  {
         doc.name = docName;
         doc.category = "";
         doc.numberOfPages = 1;
+        Locale locale = new Locale("ru");
+        DateFormat df = new SimpleDateFormat("dd MMMM yyyy",locale);
+        Date date = new Date();
+        doc.creationDate = df.format(date);
         return doc;
     }
 

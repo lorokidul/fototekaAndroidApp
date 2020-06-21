@@ -58,7 +58,9 @@ public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> imple
         String key = docsList.get(position).doc.name;
         Integer nPages = docsList.get(position).doc.numberOfPages;
         String suffix =  nPages == 1? " страница" :" страниц(ы)";
+        String docDate = docsList.get(position).doc.creationDate;
         ((Item)holder).textViewPages.setText( nPages+suffix );
+        ((Item)holder).textViewDate.setText( docDate );
         ((Item)holder).deleteIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -109,11 +111,13 @@ public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> imple
     public class Item extends RecyclerView.ViewHolder{
         TextView textViewName;
         TextView textViewPages;
+        TextView textViewDate;
         ImageView deleteIcon;
         public Item(View itemView){
             super(itemView);
             textViewName = (TextView) itemView.findViewById(R.id.docNameItem);
             textViewPages = (TextView) itemView.findViewById(R.id.numberOfPages);
+            textViewDate = (TextView) itemView.findViewById(R.id.docDate);
             deleteIcon = (ImageView) itemView.findViewById(R.id.deleteIcon);
         }
     }

@@ -24,7 +24,7 @@ public interface DocDao {
     @Query("SELECT * FROM doc WHERE category == category")
     List<Doc> getDocWithCategory();
 
-    @Query("SELECT id, name, numberOfPages from doc ")
+    @Query("SELECT id, name, numberOfPages, creationDate from doc ")
     List<DocumentWithFiles> getDocWithFiles();
 
     @Query("SELECT id, name from doc  WHERE name==:name")
