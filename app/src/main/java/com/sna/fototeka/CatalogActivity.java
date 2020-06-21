@@ -28,6 +28,7 @@ public class CatalogActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().setTitle(R.string.allDocs);
         SelectDocWithFiles selectDocs = new SelectDocWithFiles();
         selectDocs.execute();
         }

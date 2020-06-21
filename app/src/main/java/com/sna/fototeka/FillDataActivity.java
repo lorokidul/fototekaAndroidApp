@@ -15,6 +15,7 @@ public class FillDataActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().setTitle(R.string.documentCreation);
         setContentView(R.layout.activity_fill_data);
         Button addPagesBtn = findViewById(R.id.buttonAddPages);
 

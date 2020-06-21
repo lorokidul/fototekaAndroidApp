@@ -95,6 +95,7 @@ public class PhotoActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().setTitle(R.string.documentCreation);
         setContentView(R.layout.activity_photo);
         docName = getIntent().getStringExtra("docName");
         final String filename = getIntent().getStringExtra("filename");

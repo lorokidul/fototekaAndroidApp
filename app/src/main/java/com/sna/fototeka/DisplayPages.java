@@ -27,17 +27,17 @@ public class DisplayPages extends AppCompatActivity {
 
        ArrayList<SliderItem> sliderItems = new ArrayList<SliderItem>();
 
-        for (Page page : pages) {
-            sliderItems.add(new SliderItem(page.filename));
-        }
+        for (Page page : pages) { sliderItems.add(new SliderItem(page.filename)); }
 
         return sliderItems;
 
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         String documentName = getIntent().getStringExtra("doc");
+        getSupportActionBar().setTitle(documentName);
         SelectPagesFromDatabase selectPages = new SelectPagesFromDatabase();
         selectPages.execute(documentName);
     }
@@ -58,7 +58,6 @@ public class DisplayPages extends AppCompatActivity {
             setContentView(R.layout.activity_display_pages);
 
             viewPager2 = findViewById(R.id.viewPagerImagesSlider);
-
             List<SliderItem> sliderItems = getSliderItems(pages);
             viewPager2.setAdapter(new SliderAdapter(sliderItems, viewPager2, DisplayPages.this));
 

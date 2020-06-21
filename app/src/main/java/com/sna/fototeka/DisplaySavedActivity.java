@@ -27,6 +27,7 @@ public class DisplaySavedActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().setTitle(R.string.documentCreation);
         setContentView(R.layout.activity_display_saved);
         String docName = getIntent().getStringExtra("docName");
         TextView textView = findViewById(R.id.savedTextView);
