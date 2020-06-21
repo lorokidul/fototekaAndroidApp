@@ -7,6 +7,7 @@ import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.ExifInterface;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -38,6 +39,7 @@ public class PhotoActivity extends AppCompatActivity {
     public static final int CODE_ADD = 1000;
     public static final int CODE_REMAKE = 1001;
     public static final int CODE_START = 1002;
+    public int pageId;
     Uri photoUri;
 
     String currentPhotoPath;
@@ -54,8 +56,8 @@ public class PhotoActivity extends AppCompatActivity {
         );
 
         // Save a file: path for use with ACTION_VIEW intents
+
         currentPhotoPath = image.getAbsolutePath();
-        Log.d("current_path", currentPhotoPath);
         return image;
     }
 
@@ -146,21 +148,25 @@ public class PhotoActivity extends AppCompatActivity {
         Bitmap rotatedBitmap = null;
         try {
             Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), Uri.fromFile(file));
-            Log.d("FOTO",bitmap.toString());
+            Log.d("FOTO",Uri.fromFile(file).toString());
             Matrix matrix = PhotoFunctions.getRotationMatrix(currentPhotoPath);
             rotatedBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
 
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+        if(rotatedBitmap.getByteCount()>PhotoFunctions.MAX_BITMAP_SIZE){
+            rotatedBitmap = PhotoFunctions.createScaledBitmap(rotatedBitmap);
+        }
         imageView.setImageBitmap(rotatedBitmap);
 
         Page page = new Page();
+
         if (requestCode == CODE_ADD) {
             pageCounter++;
         }
         String pageName = docName + "_" + pageCounter + ".png";
+
         page.document = docName;
         page.filename = currentPhotoPath;
         page.pageNumber = pageCounter;
@@ -174,17 +180,41 @@ public class PhotoActivity extends AppCompatActivity {
         }
 
         if (requestCode == CODE_REMAKE) {
-
+            page.id=pageId;
             UpdatePageInDatabase updatePage = new UpdatePageInDatabase(getApplicationContext());
             updatePage.execute(page);
 
         } else {
 
-            InsertPageToDatabase insertPage = new InsertPageToDatabase(getApplicationContext());
+            InsertPageToDatabase insertPage = new InsertPageToDatabase();
             insertPage.execute(page);
 
         }
     }
 
+class InsertPageToDatabase extends AsyncTask<Page, Void, Integer> {
+
+    @Override
+    protected Integer doInBackground(Page... params) {
+        Page page = params[0];
+        AppDatabase db = App.getInstance().getDatabase();
+        PageDao pageDao = db.pageDao();
+        DocDao docDao = db.docDao();
+
+        Doc doc = docDao.getDocsByName(page.document).get(0);
+        doc.numberOfPages=page.pageNumber;
+        docDao.update(doc);
+        Integer key = (int) pageDao.insert(page);
+        return key;
+    }
+
+    @Override
+    protected void onPostExecute(Integer key) {
+        super.onPostExecute(key);
+        pageId = key;
+
+
+    }
+}
 
 }

@@ -22,6 +22,7 @@ public class CatalogActivity extends AppCompatActivity {
     private Adapter recyclerAdapter;
     private RecyclerView.LayoutManager layoutManager;
     private static final int VERTICAL_ITEM_SPACE = 48;
+    private int layoutId = 0;
 
 
     @Override
@@ -33,22 +34,23 @@ public class CatalogActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.docs_menu, menu);
-        MenuItem item = menu.findItem(R.id.action_search);
-        SearchView searchView = (SearchView) item.getActionView();
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
+        if(layoutId != R.id.catalogEmptyLayout) {
+            getMenuInflater().inflate(R.menu.docs_menu, menu);
+            MenuItem item = menu.findItem(R.id.action_search);
+            SearchView searchView = (SearchView) item.getActionView();
+            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextSubmit(String query) {
+                    return false;
+                }
 
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                recyclerAdapter.getFilter().filter(newText);
-                return false;
-            }
-        });
-
+                @Override
+                public boolean onQueryTextChange(String newText) {
+                    recyclerAdapter.getFilter().filter(newText);
+                    return false;
+                }
+            });
+        }
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -66,6 +68,7 @@ public class CatalogActivity extends AppCompatActivity {
             super.onPostExecute(docsList);
             if (docsList.size() == 0) {
                 setContentView(R.layout.catalog_empty);
+                layoutId = R.id.catalogEmptyLayout;
                 Button addDocButton = findViewById(R.id.addDocButton);
                 View.OnClickListener onClickListener = new View.OnClickListener() {
                     @Override
@@ -78,7 +81,7 @@ public class CatalogActivity extends AppCompatActivity {
                 addDocButton.setOnClickListener(onClickListener);
             } else {
                 setContentView(R.layout.activity_catalog);
-
+                layoutId = R.id.activityCatalogLayout;
                 recyclerView = findViewById(R.id.docsList);
                 recyclerView.setLayoutManager(new LinearLayoutManager(CatalogActivity.this));
                 recyclerAdapter = new Adapter(CatalogActivity.this, docsList);

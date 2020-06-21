@@ -19,7 +19,7 @@ class UpdatePageInDatabase extends AsyncTask<Page, Void, Void>  {
         Doc doc = docDao.getDocsByName(page.document).get(0);
         doc.numberOfPages=page.pageNumber;
         docDao.update(doc);
-        pageDao.update(page);
+        pageDao.updateFileByKey(page.id, page.filename);
         return null;
     }
 

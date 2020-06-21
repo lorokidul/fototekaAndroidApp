@@ -56,9 +56,9 @@ public class Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> imple
 
         ((Item)holder).textViewName.setText(docsList.get(position).doc.name);
         String key = docsList.get(position).doc.name;
-        int nPages = docsList.get(position).pages.size();
+        Integer nPages = docsList.get(position).doc.numberOfPages;
         String suffix =  nPages == 1? " страница" :" страниц(ы)";
-        //((Item)holder).textViewPages.setText( nPages+suffix );
+        ((Item)holder).textViewPages.setText( nPages+suffix );
         ((Item)holder).deleteIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

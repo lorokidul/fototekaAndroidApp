@@ -21,12 +21,14 @@ public interface PageDao {
     List<Page> getFilesByDocName(String doc);
 
 
-
     @Insert
-    void insert(Page page);
+    long insert(Page page);
 
     @Update
     void update(Page page);
+
+    @Query("UPDATE page SET filename =:fname WHERE id==:pageId")
+    void updateFileByKey(int pageId, String fname);
 
     @Delete
     void delete(Page page);

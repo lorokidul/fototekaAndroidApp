@@ -7,7 +7,7 @@ import android.media.ExifInterface;
 import java.io.IOException;
 
 public class PhotoFunctions {
-
+    public static final int MAX_BITMAP_SIZE = 100 * 1024 * 1024; // 100mb
     public static Matrix getRotationMatrix(String path){
         ExifInterface exif = null;
         try {
@@ -21,6 +21,10 @@ public class PhotoFunctions {
         if (rotation != 0) {matrix.preRotate(rotationInDegrees);}
         return matrix;
 
+    }
+
+    public static Bitmap createScaledBitmap(Bitmap bitmap){
+        return bitmap;
     }
 
     private static int exifToDegrees(int exifOrientation) {
