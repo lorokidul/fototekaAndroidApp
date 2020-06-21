@@ -62,7 +62,6 @@ public class DisplaySavedActivity extends AppCompatActivity {
         protected Bitmap doInBackground(String... params) {
             PageDao pageDao = App.getInstance().getDatabase().pageDao();
             List<Page> pages = pageDao.getFilesByDocName(params[0]);
-            Log.d("PAGES", params[0] +"|"+ Integer.toString(pages.size() ));
             if(pages.size()>0){
 
                 String filename = pages.get(0).filename;

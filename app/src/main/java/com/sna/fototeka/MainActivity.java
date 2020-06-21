@@ -46,7 +46,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.d("destroy_msg", "quit");
     }
 
     class DeleteRows extends AsyncTask<String,Void, Void> {

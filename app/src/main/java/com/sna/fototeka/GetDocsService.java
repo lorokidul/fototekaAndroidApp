@@ -103,9 +103,7 @@ public class GetDocsService extends IntentService {
        // throw new UnsupportedOperationException("Not yet implemented");
         AppDatabase db = App.getInstance().getDatabase();
         List<DocumentWithFiles> docsList = db.docDao().getDocWithFiles();
-        for(DocumentWithFiles elem : docsList) {
-            Log.d("DOC_LIST", elem.doc.name);
-        }
+
         System.out.println("check docs list");
         stopSelf();
     }

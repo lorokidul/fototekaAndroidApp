@@ -149,7 +149,6 @@ public class PhotoActivity extends AppCompatActivity {
         Bitmap rotatedBitmap = null;
         try {
             Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), Uri.fromFile(file));
-            Log.d("FOTO",Uri.fromFile(file).toString());
             Matrix matrix = PhotoFunctions.getRotationMatrix(currentPhotoPath);
             rotatedBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
 
